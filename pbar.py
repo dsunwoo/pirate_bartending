@@ -1,4 +1,5 @@
-# Dictionaries
+import random
+
 questions = {
     "strong": "Do ye like yer drinks strong?",
     "salty": "Do ye like it with a salty tang?",
@@ -15,3 +16,30 @@ ingredients = {
     "fruity": ["slice of orange", "dash of cassis", "cherry on top"],
 }
 
+
+def askme():
+    """Ask a series of questions to determine what type of drink to mix"""
+    answers={}
+    for qkey, question in questions.items():
+        answers[qkey]=input(question + " ")[0].lower() in ["y"]
+    return answers
+
+def make(answers):
+    """Pick random ingredients for each flavor category given by user to mix drink"""
+    ings=[]
+    for akey, ans in answers.items():
+        if answers[akey]:
+            ings.append(random.choice(ingredients[akey]))
+        else:
+            continue
+    return ings
+        
+def main():
+    answers=askme()
+    drink=make(answers)
+    print("Your drink consists of: ")
+    for ing in drink:
+        print("A " + ing)
+    
+if __name__ == "__main__":
+    main()
