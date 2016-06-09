@@ -14,6 +14,7 @@ ingredients = {
     "bitter": ["shake of bitters", "splash of tonic", "twist of lemon peel"],
     "sweet": ["sugar cube", "spoonful of honey", "spash of cola"],
     "fruity": ["slice of orange", "dash of cassis", "cherry on top"],
+    "water":["water"],
 }
 
 names = ["ginger","squid","rose","noodle","calculator","wafer","seaweed"]
@@ -21,8 +22,13 @@ names = ["ginger","squid","rose","noodle","calculator","wafer","seaweed"]
 def askme():
     """Ask a series of questions to determine what type of drink to mix"""
     answers={}
+    fcount=0
     for qkey, question in questions.items():
         answers[qkey]=input(question + " ")[0].lower() in ["y"]
+        if answers[qkey]==False:
+            fcount+=1
+    if fcount==len(questions):
+        answers={"water":True}
     return answers
 
 def make(answers):
@@ -47,15 +53,29 @@ def drink_name(answers):
     return dname
     
 def main():
-    answers=askme()
-    drink=make(answers)
-    concoction=drink_name(answers)
-    print()
-    print("I call this drink the " + concoction + " and it consists of: ")
-    print()
-    for ing in drink:
-        print("A " + ing)
-    
+    dlim=3
+    dnum=0
+    more=True
+    while more:
+        answers=askme()
+        drink=make(answers)
+        if "water" in drink:
+            concoction=str(drink[0])
+        else:
+            concoction=drink_name(answers)
+            dnum+=1
+        print()
+        print("I call this drink the " + concoction + " and the ingredients are: ")
+        print()
+        for ing in drink:
+            print("A " + ing)
+        print()
+        # Ask for another drink
+        more=input("Would you like another drink? ")[0].lower() in ["y"]
+        print()
+        if dnum>dlim:
+            print("This is drink number " + str(dnum) + " for you. I need to cut you off.")
+            more=False
     
 if __name__ == "__main__":
     main()
