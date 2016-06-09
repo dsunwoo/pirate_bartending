@@ -35,10 +35,24 @@ def make(answers):
             continue
     return ings
 
+def drink_name(answers):
+    """Randomly generate a name based on lists above with chosen ingredients"""
+    nlist=[]
+    for akey, ans in answers.items():
+        if answers[akey]:
+            nlist.append(akey)
+        else:
+            continue
+    dname=random.choice(nlist) + " " + random.choice(names)
+    return dname
+    
 def main():
     answers=askme()
     drink=make(answers)
-    print("Your drink consists of: ")
+    concoction=drink_name(answers)
+    print()
+    print("I call this drink the " + concoction + " and it consists of: ")
+    print()
     for ing in drink:
         print("A " + ing)
     
